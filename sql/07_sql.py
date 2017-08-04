@@ -1,17 +1,15 @@
 import sqlite3
 
-with sqlite3.connect("new.db") as connection:
+with sqlite3.connect("cars.db") as connection:
     c = connection.cursor()
-
-    #update data
-    c.execute("UPDATE population SET population = 9000000 WHERE city='New York City'")
-    c.execute("DELETE FROM population WHERE city='Phoenix'")
-
-    print("\nNew Data:\n")
-
-    c.execute("SELECT * FROM population")
-
-    rows = c.fetchall()
-
-    for r in rows:
-        print(r[0],r[1],r[2])
+    try:
+        cars = [
+        ('Ford','Ka',12),
+        ('Honda','Civic',5)
+        ]
+        c.executemany("INSERT INTO inventory VALUES(?,?,?)",cars)
+        rows = c.execute("SELECT * FROM inventory")
+        for row in rows:
+            print (row[0],row[1],row[2])
+    except Exception as e:
+        print(e)
